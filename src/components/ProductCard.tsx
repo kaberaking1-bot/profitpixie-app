@@ -57,48 +57,49 @@ export default function ProductCard({
             </div>
           )}
           {featured && (
-            <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
+            <Badge className="absolute top-2 right-2 bg-accent text-accent-foreground text-xs">
               Featured
             </Badge>
           )}
         </div>
       </CardHeader>
-      <CardContent className="p-6">
-        <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+      <CardContent className="p-3">
+        <h3 className="font-bold text-sm mb-1 line-clamp-2 group-hover:text-primary transition-colors">
           {title}
         </h3>
         {description && (
-          <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+          <p className="text-muted-foreground text-xs mb-2 line-clamp-2">
             {description}
           </p>
         )}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2">
           {price !== null && (
-            <span className="text-2xl font-bold text-primary">${price}</span>
+            <span className="text-lg font-bold text-primary">${price}</span>
           )}
           {rating !== null && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`h-4 w-4 ${
+                  className={`h-3 w-3 ${
                     i < Math.floor(rating)
                       ? "fill-accent text-accent"
                       : "text-muted-foreground"
                   }`}
                 />
               ))}
-              <span className="ml-1 text-sm text-muted-foreground">{rating}</span>
+              <span className="ml-1 text-xs text-muted-foreground">{rating}</span>
             </div>
           )}
         </div>
       </CardContent>
-      <CardFooter className="p-6 pt-0">
+      <CardFooter className="p-3 pt-0">
         <Button 
           onClick={handleClick}
-          className="w-full bg-gradient-cta hover:opacity-90 transition-opacity"
+          size="sm"
+          className="w-full bg-gradient-cta hover:opacity-90 transition-opacity text-xs"
         >
-          Get Offer <ExternalLink className="ml-2 h-4 w-4" />
+          Get Offer <ExternalLink className="ml-1 h-3 w-3" />
         </Button>
       </CardFooter>
     </Card>

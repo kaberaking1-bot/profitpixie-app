@@ -81,7 +81,7 @@ export default function Home() {
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
           </div>
         ) : featuredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} {...product} />
             ))}
