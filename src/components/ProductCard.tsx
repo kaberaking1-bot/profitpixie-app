@@ -44,7 +44,10 @@ export default function ProductCard({
   return (
     <Card className="group overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 animate-scale-in">
       <CardHeader className="p-0">
-        <div className="relative aspect-square overflow-hidden bg-muted">
+        <div 
+          className="relative aspect-square overflow-hidden bg-muted cursor-pointer"
+          onClick={handleClick}
+        >
           {image_url ? (
             <img
               src={image_url}
