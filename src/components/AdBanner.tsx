@@ -10,9 +10,9 @@ export default function AdBanner({
   height = "medium" 
 }: AdBannerProps) {
   const heightClasses = {
-    small: "h-24",
-    medium: "h-32 md:h-48",
-    large: "h-48 md:h-64",
+    small: "h-10",
+    medium: "h-12 md:h-16",
+    large: "h-16 md:h-20",
   };
 
   const widthClasses = {
