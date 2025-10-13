@@ -1,58 +1,27 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchProducts, fetchCategories, type WordPressProduct, type WordPressCategory } from "@/services/wordpress";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface Product {
-  id: string;
-  title: string;
-  description: string | null;
-  image_url: string | null;
-  affiliate_link: string;
-  price: number | null;
-  rating: number | null;
-  featured: boolean;
-  category_id: string | null;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 export default function Categories() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<WordPressProduct[]>([]);
+  const [categories, setCategories] = useState<WordPressCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const selectedCategory = searchParams.get("filter");
 
   useEffect(() => {
-    async function fetchData() {
+    async function loadData() {
       try {
-        // Fetch categories
-        const { data: categoriesData } = await supabase
-          .from("categories")
-          .select("*")
-          .order("name");
+        const [categoriesData, productsData] = await Promise.all([
+          fetchCategories(),
+          fetchProducts(selectedCategory || undefined)
+        ]);
 
-        // Fetch products
-        let query = supabase.from("products").select("*");
-        
-        if (selectedCategory) {
-          const category = categoriesData?.find(c => c.slug === selectedCategory);
-          if (category) {
-            query = query.eq("category_id", category.id);
-          }
-        }
-
-        const { data: productsData } = await query;
-
-        if (categoriesData) setCategories(categoriesData);
-        if (productsData) setProducts(productsData);
+        setCategories(categoriesData);
+        setProducts(productsData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -60,7 +29,7 @@ export default function Categories() {
       }
     }
 
-    fetchData();
+    loadData();
   }, [selectedCategory]);
 
   const handleCategoryFilter = (slug: string | null) => {
@@ -115,7 +84,17 @@ export default function Categories() {
         ) : products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              <ProductCard
+                key={product.id}
+                id={product.id.toString()}
+                title={product.title.rendered}
+                description={product.content.rendered.replace(/<[^>]*>/g, '')}
+                image_url={product._embedded?.['wp:featuredmedia']?.[0]?.source_url || null}
+                affiliate_link={product.acf?.affiliate_link || '#'}
+                price={product.acf?.price || null}
+                rating={product.acf?.rating || null}
+                featured={product.acf?.featured || false}
+              />
             ))}
           </div>
         ) : (

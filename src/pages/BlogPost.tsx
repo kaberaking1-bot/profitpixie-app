@@ -1,34 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchBlogPost, type WordPressPost } from "@/services/wordpress";
 import { Loader2, Calendar, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  image_url: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
 export default function BlogPost() {
   const { slug } = useParams();
-  const [post, setPost] = useState<BlogPost | null>(null);
+  const [post, setPost] = useState<WordPressPost | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchPost() {
+    async function loadPost() {
       try {
-        const { data } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .eq("slug", slug)
-          .eq("published", true)
-          .single();
-
-        if (data) setPost(data);
+        const data = await fetchBlogPost(slug!);
+        setPost(data);
       } catch (error) {
         console.error("Error fetching blog post:", error);
       } finally {
@@ -36,7 +21,7 @@ export default function BlogPost() {
       }
     }
 
-    if (slug) fetchPost();
+    if (slug) loadPost();
   }, [slug]);
 
   const formatDate = (date: string) => {
@@ -87,11 +72,11 @@ export default function BlogPost() {
       {/* Article */}
       <article className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Featured Image */}
-        {post.image_url && (
+        {post._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
           <div className="aspect-video overflow-hidden rounded-lg mb-8">
             <img
-              src={post.image_url}
-              alt={post.title}
+              src={post._embedded['wp:featuredmedia'][0].source_url}
+              alt={post.title.rendered}
               className="w-full h-full object-cover"
             />
           </div>
@@ -100,16 +85,14 @@ export default function BlogPost() {
         {/* Meta */}
         <div className="flex items-center gap-2 text-muted-foreground mb-4">
           <Calendar className="h-4 w-4" />
-          <time dateTime={post.created_at}>{formatDate(post.created_at)}</time>
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold mb-8">{post.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-8" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
 
         {/* Content */}
-        <div className="prose prose-lg max-w-none">
-          <div className="whitespace-pre-wrap">{post.content}</div>
-        </div>
+        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
       </article>
     </div>
   );

@@ -2,17 +2,7 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Search, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-
-interface Product {
-  id: string;
-  title: string;
-  description: string | null;
-  image_url: string | null;
-  price: number | null;
-  affiliate_link: string;
-}
+import { searchProducts, type WordPressProduct } from "@/services/wordpress";
 
 interface SearchDialogProps {
   open: boolean;
@@ -21,9 +11,8 @@ interface SearchDialogProps {
 
 export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<Product[]>([]);
+  const [results, setResults] = useState<WordPressProduct[]>([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -31,16 +20,11 @@ export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) 
       return;
     }
 
-    const searchProducts = async () => {
+    const search = async () => {
       setLoading(true);
       try {
-        const { data } = await supabase
-          .from("products")
-          .select("*")
-          .ilike("title", `%${searchQuery}%`)
-          .limit(10);
-
-        setResults(data || []);
+        const data = await searchProducts(searchQuery);
+        setResults(data);
       } catch (error) {
         console.error("Search error:", error);
       } finally {
@@ -48,7 +32,7 @@ export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) 
       }
     };
 
-    const debounce = setTimeout(searchProducts, 300);
+    const debounce = setTimeout(search, 300);
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
@@ -84,27 +68,23 @@ export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) 
               {results.map((product) => (
                 <div
                   key={product.id}
-                  onClick={() => handleProductClick(product.affiliate_link)}
+                  onClick={() => handleProductClick(product.acf?.affiliate_link || '#')}
                   className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted cursor-pointer transition-colors"
                 >
-                  {product.image_url && (
+                  {product._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
                     <img
-                      src={product.image_url}
-                      alt={product.title}
+                      src={product._embedded['wp:featuredmedia'][0].source_url}
+                      alt={product.title.rendered}
                       className="w-16 h-16 object-cover rounded"
                     />
                   )}
                   <div className="flex-1">
-                    <h3 className="font-semibold">{product.title}</h3>
-                    {product.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-1">
-                        {product.description}
-                      </p>
-                    )}
+                    <h3 className="font-semibold" dangerouslySetInnerHTML={{ __html: product.title.rendered }} />
+                    <p className="text-sm text-muted-foreground line-clamp-1" dangerouslySetInnerHTML={{ __html: product.content.rendered.replace(/<[^>]*>/g, '') }} />
                   </div>
-                  {product.price && (
+                  {product.acf?.price && (
                     <span className="font-bold text-primary">
-                      ${product.price.toFixed(2)}
+                      ${product.acf.price.toFixed(2)}
                     </span>
                   )}
                 </div>

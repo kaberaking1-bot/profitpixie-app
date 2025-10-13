@@ -1,31 +1,17 @@
 import { useEffect, useState } from "react";
 import BlogCard from "@/components/BlogCard";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchBlogPosts, type WordPressPost } from "@/services/wordpress";
 import { Loader2 } from "lucide-react";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  image_url: string | null;
-  created_at: string;
-}
-
 export default function Blog() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<WordPressPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchPosts() {
+    async function loadPosts() {
       try {
-        const { data } = await supabase
-          .from("blog_posts")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false });
-
-        if (data) setPosts(data);
+        const data = await fetchBlogPosts();
+        setPosts(data);
       } catch (error) {
         console.error("Error fetching blog posts:", error);
       } finally {
@@ -33,7 +19,7 @@ export default function Blog() {
       }
     }
 
-    fetchPosts();
+    loadPosts();
   }, []);
 
   return (
@@ -59,7 +45,14 @@ export default function Blog() {
         ) : posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
-              <BlogCard key={post.id} {...post} />
+              <BlogCard
+                key={post.id}
+                slug={post.slug}
+                title={post.title.rendered}
+                excerpt={post.excerpt.rendered.replace(/<[^>]*>/g, '')}
+                image_url={post._embedded?.['wp:featuredmedia']?.[0]?.source_url || ""}
+                created_at={post.date}
+              />
             ))}
           </div>
         ) : (
