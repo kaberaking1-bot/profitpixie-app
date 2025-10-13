@@ -2,9 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Search, Tag } from "lucide-react";
 import { useState } from "react";
+import SearchDialog from "./SearchDialog";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -46,7 +48,7 @@ export default function Navigation() {
                 {link.label}
               </Link>
             ))}
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outline" onClick={() => setSearchOpen(true)}>
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>
@@ -81,6 +83,9 @@ export default function Navigation() {
           </div>
         )}
       </div>
+      
+      {/* Search Dialog */}
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </nav>
   );
 }
