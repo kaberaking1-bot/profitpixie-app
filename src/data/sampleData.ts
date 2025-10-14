@@ -45,48 +45,48 @@ export const samplePosts: WordPressPost[] = [
 export const sampleProducts: WordPressProduct[] = [
   {
     id: 101,
-    slug: "premium-wireless-earbuds",
-    title: { rendered: "Premium Wireless Earbuds" },
-    content: { rendered: "Experience crystal-clear sound with active noise cancellation and 30-hour battery life." },
+    slug: "apple-airpods-pro-2",
+    title: { rendered: "Apple AirPods Pro (2nd Generation)" },
+    content: { rendered: "Active Noise Cancellation, Transparency mode, Adaptive Audio, and Personalized Spatial Audio with dynamic head tracking for immersive sound." },
     acf: {
-      price: 149.99,
-      affiliate_link: "#",
+      price: 249.99,
+      affiliate_link: "https://www.amazon.com/Apple-Generation-Cancelling-Transparency-Personalized/dp/B0D1XD1ZV3",
       rating: 4.8,
       featured: true
     },
     _embedded: {
       'wp:featuredmedia': [{
-        source_url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600"
+        source_url: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=600"
       }],
       'wp:term': [[{ id: 1, name: "Electronics", slug: "electronics" }]]
     }
   },
   {
     id: 102,
-    slug: "smart-fitness-watch",
-    title: { rendered: "Smart Fitness Watch" },
-    content: { rendered: "Track your health metrics with this advanced fitness watch featuring GPS and heart rate monitoring." },
+    slug: "samsung-galaxy-watch-6",
+    title: { rendered: "Samsung Galaxy Watch 6 Classic" },
+    content: { rendered: "Advanced health tracking with heart rate, sleep monitoring, and GPS. Compatible with Android devices. Water resistant up to 50m." },
     acf: {
-      price: 299.99,
-      affiliate_link: "#",
+      price: 349.99,
+      affiliate_link: "https://www.amazon.com/Samsung-Smartwatch-Fitness-Tracker-Bluetooth/dp/B0C79L5YGT",
       rating: 4.6,
       featured: true
     },
     _embedded: {
       'wp:featuredmedia': [{
-        source_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
+        source_url: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600"
       }],
       'wp:term': [[{ id: 2, name: "Wearables", slug: "wearables" }]]
     }
   },
   {
     id: 103,
-    slug: "portable-bluetooth-speaker",
-    title: { rendered: "Portable Bluetooth Speaker" },
-    content: { rendered: "Waterproof speaker with 360° sound and 20-hour battery for outdoor adventures." },
+    slug: "jbl-flip-6-speaker",
+    title: { rendered: "JBL Flip 6 Portable Bluetooth Speaker" },
+    content: { rendered: "Waterproof portable speaker with powerful JBL Original Pro Sound. 12 hours of playtime. PartyBoost feature pairs multiple speakers." },
     acf: {
-      price: 79.99,
-      affiliate_link: "#",
+      price: 129.99,
+      affiliate_link: "https://www.ebay.com/itm/JBL-Flip-6-Portable-Waterproof-Bluetooth-Speaker",
       rating: 4.7,
       featured: true
     },
@@ -99,13 +99,13 @@ export const sampleProducts: WordPressProduct[] = [
   },
   {
     id: 104,
-    slug: "4k-webcam-pro",
-    title: { rendered: "4K Webcam Pro" },
-    content: { rendered: "Professional-grade 4K webcam with auto-focus and built-in ring light for perfect video calls." },
+    slug: "logitech-c920-webcam",
+    title: { rendered: "Logitech C920 HD Pro Webcam" },
+    content: { rendered: "Full HD 1080p video calling, auto light correction, and stereo audio. Perfect for video conferences, streaming, and recording." },
     acf: {
-      price: 199.99,
-      affiliate_link: "#",
-      rating: 4.5,
+      price: 79.99,
+      affiliate_link: "https://www.amazon.com/Logitech-C920x-Pro-HD-Webcam/dp/B085TFF7M1",
+      rating: 4.6,
       featured: true
     },
     _embedded: {
@@ -117,13 +117,13 @@ export const sampleProducts: WordPressProduct[] = [
   },
   {
     id: 105,
-    slug: "ergonomic-keyboard",
-    title: { rendered: "Ergonomic Wireless Keyboard" },
-    content: { rendered: "Reduce strain with this ergonomic keyboard featuring split design and cushioned palm rest." },
+    slug: "keychron-k8-keyboard",
+    title: { rendered: "Keychron K8 Wireless Mechanical Keyboard" },
+    content: { rendered: "Tenkeyless wireless mechanical keyboard with hot-swappable switches. Mac and Windows compatible with RGB backlight." },
     acf: {
-      price: 129.99,
-      affiliate_link: "#",
-      rating: 4.9,
+      price: 89.99,
+      affiliate_link: "https://www.amazon.com/Keychron-Wireless-Mechanical-Tenkeyless-Keyboard/dp/B08L5ZQB3G",
+      rating: 4.5,
       featured: true
     },
     _embedded: {
@@ -135,13 +135,13 @@ export const sampleProducts: WordPressProduct[] = [
   },
   {
     id: 106,
-    slug: "smart-led-bulb-set",
-    title: { rendered: "Smart LED Bulb Set (4-Pack)" },
-    content: { rendered: "Control your lighting with voice commands and customize colors with 16 million options." },
+    slug: "philips-hue-starter-kit",
+    title: { rendered: "Philips Hue Smart LED Bulb Starter Kit" },
+    content: { rendered: "4 smart color bulbs with Hue Bridge. Control with voice commands via Alexa, Google Assistant, or Apple HomeKit. 16 million colors." },
     acf: {
-      price: 49.99,
-      affiliate_link: "#",
-      rating: 4.4,
+      price: 199.99,
+      affiliate_link: "https://www.amazon.com/Philips-Hue-Bluetooth-compatible-Assistant/dp/B07QV9XB87",
+      rating: 4.7,
       featured: true
     },
     _embedded: {
@@ -149,6 +149,168 @@ export const sampleProducts: WordPressProduct[] = [
         source_url: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600"
       }],
       'wp:term': [[{ id: 4, name: "Home", slug: "home" }]]
+    }
+  },
+  {
+    id: 107,
+    slug: "anker-powerbank-737",
+    title: { rendered: "Anker 737 Power Bank 24000mAh" },
+    content: { rendered: "High-capacity portable charger with 140W output. Charges laptops, tablets, and phones. Smart digital display shows battery percentage." },
+    acf: {
+      price: 149.99,
+      affiliate_link: "https://www.amazon.com/Anker-PowerCore-Portable-Charger-24000mAh/dp/B0BYP117MZ",
+      rating: 4.8,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=600"
+      }],
+      'wp:term': [[{ id: 3, name: "Accessories", slug: "accessories" }]]
+    }
+  },
+  {
+    id: 108,
+    slug: "ring-video-doorbell-pro-2",
+    title: { rendered: "Ring Video Doorbell Pro 2" },
+    content: { rendered: "1536p HD video, 3D motion detection, and built-in Alexa Greetings. Bird's Eye View and color pre-roll video preview." },
+    acf: {
+      price: 249.99,
+      affiliate_link: "https://www.amazon.com/Ring-Video-Doorbell-Pro-2/dp/B086Q54K53",
+      rating: 4.5,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1558002038-1055907df827?w=600"
+      }],
+      'wp:term': [[{ id: 4, name: "Home", slug: "home" }]]
+    }
+  },
+  {
+    id: 109,
+    slug: "sony-wh1000xm5-headphones",
+    title: { rendered: "Sony WH-1000XM5 Wireless Headphones" },
+    content: { rendered: "Industry-leading noise cancellation, exceptional sound quality, 30-hour battery life, and multipoint connection for seamless device switching." },
+    acf: {
+      price: 399.99,
+      affiliate_link: "https://www.ebay.com/itm/Sony-WH-1000XM5-Wireless-Noise-Canceling-Headphones",
+      rating: 4.9,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"
+      }],
+      'wp:term': [[{ id: 1, name: "Electronics", slug: "electronics" }]]
+    }
+  },
+  {
+    id: 110,
+    slug: "amazon-echo-dot-5th-gen",
+    title: { rendered: "Amazon Echo Dot (5th Gen) with Clock" },
+    content: { rendered: "Smart speaker with Alexa, improved audio, LED display shows time, alarms, weather. Control smart home devices with voice commands." },
+    acf: {
+      price: 59.99,
+      affiliate_link: "https://www.amazon.com/All-New-Echo-Dot-5th-Gen/dp/B09B93ZDG4",
+      rating: 4.6,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1543512214-318c7553f230?w=600"
+      }],
+      'wp:term': [[{ id: 4, name: "Home", slug: "home" }]]
+    }
+  },
+  {
+    id: 111,
+    slug: "razer-deathadder-v3",
+    title: { rendered: "Razer DeathAdder V3 Pro Gaming Mouse" },
+    content: { rendered: "Lightweight wireless gaming mouse with Focus Pro 30K optical sensor, 90-hour battery life, and ergonomic design for competitive gaming." },
+    acf: {
+      price: 149.99,
+      affiliate_link: "https://www.amazon.com/Razer-DeathAdder-Wireless-Gaming-Mouse/dp/B0B6KL9DNJ",
+      rating: 4.7,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600"
+      }],
+      'wp:term': [[{ id: 3, name: "Accessories", slug: "accessories" }]]
+    }
+  },
+  {
+    id: 112,
+    slug: "tp-link-wifi-6-router",
+    title: { rendered: "TP-Link Archer AX3000 WiFi 6 Router" },
+    content: { rendered: "Dual-band WiFi 6 router with speeds up to 3 Gbps. Covers up to 2500 sq ft. Easy setup with TP-Link Tether app. Parental controls included." },
+    acf: {
+      price: 99.99,
+      affiliate_link: "https://www.amazon.com/TP-Link-WiFi-6-Router-Archer-AX3000/dp/B08H8ZLKKK",
+      rating: 4.5,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=600"
+      }],
+      'wp:term': [[{ id: 1, name: "Electronics", slug: "electronics" }]]
+    }
+  },
+  {
+    id: 113,
+    slug: "fitbit-charge-6",
+    title: { rendered: "Fitbit Charge 6 Fitness Tracker" },
+    content: { rendered: "Advanced fitness tracker with built-in GPS, heart rate monitoring, sleep tracking, and 7-day battery life. Google integration for maps and wallet." },
+    acf: {
+      price: 159.99,
+      affiliate_link: "https://www.ebay.com/itm/Fitbit-Charge-6-Advanced-Fitness-Health-Tracker",
+      rating: 4.4,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=600"
+      }],
+      'wp:term': [[{ id: 2, name: "Wearables", slug: "wearables" }]]
+    }
+  },
+  {
+    id: 114,
+    slug: "eufy-robovac-x8",
+    title: { rendered: "eufy RoboVac X8 Hybrid Robot Vacuum" },
+    content: { rendered: "Twin-turbine technology with 2× 2000Pa suction power. Vacuum and mop simultaneously. AI.Map 2.0 technology for efficient cleaning paths." },
+    acf: {
+      price: 449.99,
+      affiliate_link: "https://www.amazon.com/eufy-RoboVac-Twin-Turbine-Technology/dp/B08F3VZYKD",
+      rating: 4.6,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=600"
+      }],
+      'wp:term': [[{ id: 4, name: "Home", slug: "home" }]]
+    }
+  },
+  {
+    id: 115,
+    slug: "sandisk-extreme-portable-ssd",
+    title: { rendered: "SanDisk 2TB Extreme Portable SSD" },
+    content: { rendered: "High-speed NVMe solid state drive with up to 1050MB/s read speeds. Rugged, water and dust resistant. Password protection with hardware encryption." },
+    acf: {
+      price: 189.99,
+      affiliate_link: "https://www.amazon.com/SanDisk-Extreme-Portable-SSD-2TB/dp/B08GTXVG89",
+      rating: 4.8,
+      featured: true
+    },
+    _embedded: {
+      'wp:featuredmedia': [{
+        source_url: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600"
+      }],
+      'wp:term': [[{ id: 3, name: "Accessories", slug: "accessories" }]]
     }
   }
 ];
