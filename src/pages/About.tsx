@@ -32,7 +32,7 @@ export default function About() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="bg-gradient-hero py-16">
+      <section className="bg-gradient-hero py-12 mb-10">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             About ProfitPixie
@@ -44,7 +44,7 @@ export default function About() {
       </section>
 
       {/* Mission */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-10 mb-10">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Mission</h2>
           <p className="text-lg text-muted-foreground mb-6">
@@ -61,8 +61,8 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="container mx-auto px-4 py-16 bg-muted/30">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Our Values</h2>
+      <section className="container mx-auto px-4 py-10 mb-10 bg-muted/30 rounded-lg">
+        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center">Our Values</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
             <Card key={index} className="text-center shadow-card hover:shadow-card-hover transition-all duration-300">
@@ -79,16 +79,16 @@ export default function About() {
       </section>
 
       {/* Affiliate Disclosure */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-10 mb-10">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold mb-6">Affiliate Disclosure</h2>
-          <div className="prose prose-lg">
-            <p className="text-muted-foreground mb-4">
+          <div className="prose prose-lg space-y-4">
+            <p className="text-muted-foreground">
               ProfitPixie participates in various affiliate marketing programs, which means we may
               earn commissions on purchases made through our links to retailer sites. This comes at
               no additional cost to you.
             </p>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground">
               Our affiliate relationships do not influence our editorial content or product
               recommendations. We maintain strict editorial independence and only recommend products
               we genuinely believe will benefit our readers.
