@@ -1,6 +1,9 @@
+import { samplePosts, sampleProducts, sampleCategories } from "@/data/sampleData";
+
 // WordPress REST API Configuration
-const WORDPRESS_URL = import.meta.env.VITE_WORDPRESS_URL || 'https://your-wordpress-site.com';
+const WORDPRESS_URL = import.meta.env.VITE_WORDPRESS_URL || '';
 const WP_API_BASE = `${WORDPRESS_URL}/wp-json/wp/v2`;
+const USE_SAMPLE_DATA = !WORDPRESS_URL || WORDPRESS_URL === 'https://your-wordpress-site.com';
 
 export interface WordPressPost {
   id: number;
@@ -60,18 +63,26 @@ export interface WordPressCategory {
 
 // Fetch blog posts
 export const fetchBlogPosts = async (): Promise<WordPressPost[]> => {
+  if (USE_SAMPLE_DATA) {
+    return samplePosts;
+  }
+  
   try {
     const response = await fetch(`${WP_API_BASE}/posts?_embed&per_page=100`);
     if (!response.ok) throw new Error('Failed to fetch posts');
     return await response.json();
   } catch (error) {
     console.error('Error fetching WordPress posts:', error);
-    return [];
+    return samplePosts;
   }
 };
 
 // Fetch single blog post by slug
 export const fetchBlogPost = async (slug: string): Promise<WordPressPost | null> => {
+  if (USE_SAMPLE_DATA) {
+    return samplePosts.find(post => post.slug === slug) || null;
+  }
+  
   try {
     const response = await fetch(`${WP_API_BASE}/posts?slug=${slug}&_embed`);
     if (!response.ok) throw new Error('Failed to fetch post');
@@ -79,12 +90,21 @@ export const fetchBlogPost = async (slug: string): Promise<WordPressPost | null>
     return posts[0] || null;
   } catch (error) {
     console.error('Error fetching WordPress post:', error);
-    return null;
+    return samplePosts.find(post => post.slug === slug) || null;
   }
 };
 
 // Fetch products (custom post type)
 export const fetchProducts = async (categorySlug?: string): Promise<WordPressProduct[]> => {
+  if (USE_SAMPLE_DATA) {
+    if (categorySlug) {
+      return sampleProducts.filter(p => 
+        p._embedded?.['wp:term']?.[0]?.some(term => term.slug === categorySlug)
+      );
+    }
+    return sampleProducts;
+  }
+  
   try {
     let url = `${WP_API_BASE}/products?_embed&per_page=100`;
     if (categorySlug) {
@@ -95,30 +115,51 @@ export const fetchProducts = async (categorySlug?: string): Promise<WordPressPro
     return await response.json();
   } catch (error) {
     console.error('Error fetching WordPress products:', error);
-    return [];
+    if (categorySlug) {
+      return sampleProducts.filter(p => 
+        p._embedded?.['wp:term']?.[0]?.some(term => term.slug === categorySlug)
+      );
+    }
+    return sampleProducts;
   }
 };
 
 // Fetch categories
 export const fetchCategories = async (): Promise<WordPressCategory[]> => {
+  if (USE_SAMPLE_DATA) {
+    return sampleCategories;
+  }
+  
   try {
     const response = await fetch(`${WP_API_BASE}/product_category?per_page=100`);
     if (!response.ok) throw new Error('Failed to fetch categories');
     return await response.json();
   } catch (error) {
     console.error('Error fetching WordPress categories:', error);
-    return [];
+    return sampleCategories;
   }
 };
 
 // Search products
 export const searchProducts = async (query: string): Promise<WordPressProduct[]> => {
+  if (USE_SAMPLE_DATA) {
+    const lowerQuery = query.toLowerCase();
+    return sampleProducts.filter(p => 
+      p.title.rendered.toLowerCase().includes(lowerQuery) ||
+      p.content.rendered.toLowerCase().includes(lowerQuery)
+    );
+  }
+  
   try {
     const response = await fetch(`${WP_API_BASE}/products?search=${query}&_embed&per_page=20`);
     if (!response.ok) throw new Error('Failed to search products');
     return await response.json();
   } catch (error) {
     console.error('Error searching WordPress products:', error);
-    return [];
+    const lowerQuery = query.toLowerCase();
+    return sampleProducts.filter(p => 
+      p.title.rendered.toLowerCase().includes(lowerQuery) ||
+      p.content.rendered.toLowerCase().includes(lowerQuery)
+    );
   }
 };
