@@ -164,20 +164,26 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          display_name: string | null
           email: string | null
           id: string
+          status: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          display_name?: string | null
           email?: string | null
           id: string
+          status?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          display_name?: string | null
           email?: string | null
           id?: string
+          status?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -213,6 +219,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_user_active: {
+        Args: { _user_id: string }
         Returns: boolean
       }
     }
