@@ -15,6 +15,8 @@ export default function ProductsManagement() {
   const [categories, setCategories] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -51,39 +53,78 @@ export default function ProductsManagement() {
     setCategories(data || []);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const productData = {
-      ...formData,
-      price: formData.price ? parseFloat(formData.price) : null,
-      rating: formData.rating ? parseFloat(formData.rating) : null,
-    };
+  const uploadImage = async (file: File) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `${fileName}`;
 
-    if (editingProduct) {
-      const { error } = await supabase
-        .from("products")
-        .update(productData)
-        .eq("id", editingProduct.id);
+    const { error: uploadError, data } = await supabase.storage
+      .from('product-images')
+      .upload(filePath, file);
 
-      if (error) {
-        toast({ title: "Error", description: error.message, variant: "destructive" });
-      } else {
-        toast({ title: "Success", description: "Product updated successfully" });
-      }
-    } else {
-      const { error } = await supabase.from("products").insert([productData]);
-
-      if (error) {
-        toast({ title: "Error", description: error.message, variant: "destructive" });
-      } else {
-        toast({ title: "Success", description: "Product created successfully" });
-      }
+    if (uploadError) {
+      throw uploadError;
     }
 
-    fetchProducts();
-    setOpen(false);
-    resetForm();
+    const { data: { publicUrl } } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUploading(true);
+
+    try {
+      let imageUrl = formData.image_url;
+
+      // Upload new image if file is selected
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
+      const productData = {
+        title: formData.title,
+        description: formData.description,
+        image_url: imageUrl,
+        price: parseFloat(formData.price) || null,
+        affiliate_link: formData.affiliate_link,
+        category_id: formData.category_id || null,
+        rating: parseFloat(formData.rating) || null,
+        featured: formData.featured,
+      };
+
+      if (editingProduct) {
+        const { error } = await supabase
+          .from("products")
+          .update(productData)
+          .eq("id", editingProduct.id);
+
+        if (error) throw error;
+        toast({ title: "Success", description: "Product updated successfully" });
+      } else {
+        const { error } = await supabase
+          .from("products")
+          .insert([productData]);
+
+        if (error) throw error;
+        toast({ title: "Success", description: "Product created successfully" });
+      }
+
+      fetchProducts();
+      setOpen(false);
+      resetForm();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -116,6 +157,7 @@ export default function ProductsManagement() {
 
   const resetForm = () => {
     setEditingProduct(null);
+    setImageFile(null);
     setFormData({
       title: "",
       description: "",
@@ -184,12 +226,28 @@ export default function ProductsManagement() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image_url">Image URL</Label>
+                <Label htmlFor="image">Product Image</Label>
                 <Input
-                  id="image_url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setImageFile(file);
+                    }
+                  }}
                 />
+                {formData.image_url && !imageFile && (
+                  <div className="mt-2">
+                    <img 
+                      src={formData.image_url} 
+                      alt="Current product" 
+                      className="h-20 w-20 object-cover rounded"
+                    />
+                    <p className="text-sm text-muted-foreground mt-1">Current image</p>
+                  </div>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="affiliate_link">Affiliate Link</Label>
@@ -230,8 +288,8 @@ export default function ProductsManagement() {
                 <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {editingProduct ? "Update" : "Create"}
+                <Button type="submit" disabled={uploading}>
+                  {uploading ? "Uploading..." : editingProduct ? "Update" : "Create"}
                 </Button>
               </div>
             </form>
